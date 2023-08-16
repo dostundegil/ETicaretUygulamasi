@@ -10,33 +10,28 @@ namespace ETicaretAPI.API.Controllers
     {
         private readonly IProductWriteRepository _productWriteRepository;
         private readonly IProductReadRepository _productReadRepository;
+        private readonly IOrderReadRepository _orderReadRepository;
+        private readonly IOrderWriteRepository _orderWriteRepository;
+        private readonly ICustomerWriteRepository _customerWriteRepository;
 
-        public ProductsController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository)
+        public ProductsController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IOrderWriteRepository orderWriteRepository, IOrderReadRepository orderReadRepository, ICustomerWriteRepository customerWriteRepository)
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
+            _orderWriteRepository = orderWriteRepository;
+            _orderReadRepository = orderReadRepository;
+            _customerWriteRepository = customerWriteRepository;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            //await _productWriteRepository.AddRangeAsync(new()
-            //{
-            //    new(){Id = Guid.NewGuid(), Name = "Product1", Price = 100, CreatedDate = DateTime.UtcNow, Stock = 10}
-            //});
+            var customerId = Guid.NewGuid();
+            await _customerWriteRepository.AddAsync(new() {Id = customerId, Name = "kaan"});
 
-            //await _productWriteRepository.SaveAsync();
-            //return Ok();
-
-            var p = await _productReadRepository.GetByIdAsync("5d91c6ef-bd5c-4284-82ad-7bf616020d6d");
-            return Ok(p);   
-        }
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id)
-        {
-            var product = await _productReadRepository.GetByIdAsync(id);
-            return Ok(product);
+            await _orderWriteRepository.AddAsync(new() { Description = "açıklama", Address = "Ankara", CustomerId= customerId });
+            await _orderWriteRepository.SaveAsync();
+            return Ok();
         }
     }
 }
