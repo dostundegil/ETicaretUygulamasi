@@ -5,7 +5,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
-
+import {MatListModule} from '@angular/material/list';
 
 
 @NgModule({
@@ -16,12 +16,14 @@ import { BrowserModule } from '@angular/platform-browser';
   ],
   imports: [
     RouterModule,
-    CommonModule
+    CommonModule,
+    BrowserModule,
+    MatListModule
   ],
   exports:[
     HeaderComponent,
     FooterComponent,
-    SidebarComponent
+    SidebarComponent,
   ]
 })
 export class ComponentsModule { }
